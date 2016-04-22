@@ -60,7 +60,7 @@ public ReadCfgFile(int client, char[] configDir) {
 	new String:tempClassName[16], String:tempValue[16], String:tempSetName[16], String:tempKey[16]
 	// Loop through keys in "Classes".
 	do {
-		//KvSavePosition(kv);
+		KvSavePosition(kv);
 		// Get name of each class
 		KvGetSectionName(kv, tempClassName, sizeof(tempClassName)); 
 		PrintToConsole(client, "Class: %s", tempClassName);
@@ -68,15 +68,37 @@ public ReadCfgFile(int client, char[] configDir) {
 		if(KvGotoFirstSubKey(kv, true)) {
 			KvGetSectionName(kv, tempSetName, sizeof(tempSetName));
 			PrintToConsole(client, "Start at %s section in: %s", tempSetName, tempClassName);
+			
 			do {
 				KvGetSectionName(kv, tempSetName, sizeof(tempSetName));
-				//KvGetString(kv, NULL_STRING, tempValue, sizeof(tempValue));
-				PrintToConsole(client, "--> Set: %s", tempSetName);	
+				PrintToConsole(client, "--> Set: %s", tempSetName);
+				
+				KvGetString(kv, "primary", tempValue, sizeof(tempValue));
+				PrintToConsole(client, "====> Primary Value: %s", tempValue);
+				
+				KvGetString(kv, "secondary", tempValue, sizeof(tempValue));
+				PrintToConsole(client, "====> Secondary Value: %s", tempValue);
+				
+				KvGetString(kv, "freeze", tempValue, sizeof(tempValue));
+				PrintToConsole(client, "====> Freeze Value: %s", tempValue);
+				
+				KvGetString(kv, "napalm", tempValue, sizeof(tempValue));
+				PrintToConsole(client, "====> Napalm Value: %s", tempValue);
+				
+				KvGetString(kv, "speed", tempValue, sizeof(tempValue));
+				PrintToConsole(client, "====> Speed Value: %s", tempValue);
+				
+				KvGetString(kv, "hp", tempValue, sizeof(tempValue));
+				PrintToConsole(client, "====> Hp Value: %s", tempValue);
+				
+				KvGetString(kv, "armor", tempValue, sizeof(tempValue));
+				PrintToConsole(client, "====> Armor Value: %s", tempValue);
+					
 			}
 			while (KvGotoNextKey(kv, true));
-			}
+		}
 		
-		KvJumpToKey(kv, tempClassName, false);
+		KvGoBack(kv);
 		PrintToConsole(client, "Return to Class: %s", tempClassName);
 		
 	}
